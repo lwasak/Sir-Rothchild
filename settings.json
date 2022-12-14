@@ -1,0 +1,9 @@
+{
+  "Discord": {
+    "Token": "OTMzMzY0Mjc1MjcwMDA4ODcz.GNDze6.enWIZnPTeF4RMHdjUUzzNWal4BBpaxxl8c6tXg",
+    "ChannelId": 933379230572638280,
+    "SchedulerInterval": "00:01:00",
+    "Locale": "pl-PL",
+    "ReactionNumberForThreadCreation": 4
+  }
+}

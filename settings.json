@@ -3,7 +3,7 @@
     "Token": "",
     "ChannelId": 0,
     "SchedulerInterval": "00:01:00",
-    "Locale": "pl-PL",
+    "Locale": "en-GB",
     "ReactionNumberForThreadCreation": 4
   }
 }

@@ -1,8 +1,10 @@
 using System.Globalization;
+using System.Text.Json.Nodes;
 using Discord;
 using Discord.WebSocket;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using SirRothchild.Settings;
 
 namespace SirRothchild;
@@ -19,11 +21,14 @@ public class DiscordService : IHostedService
 
     public DiscordService(IOptions<DiscordOptions> discordOptions)
     {
-        this._discordOptions = discordOptions.Value;
+        _discordOptions = discordOptions.Value;
         _client = new DiscordSocketClient();
         _cts = new CancellationTokenSource();
 
-        var culture = new CultureInfo(this._discordOptions.Locale);
+        Console.WriteLine("Settings:");
+        Console.WriteLine(JsonConvert.SerializeObject(_discordOptions, Formatting.Indented));
+        
+        var culture = new CultureInfo(_discordOptions.Locale);
         Thread.CurrentThread.CurrentCulture = culture;
 
         _client.Ready += Ready;

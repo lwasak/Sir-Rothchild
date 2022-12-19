@@ -108,7 +108,7 @@ public class DiscordService : IHostedService
         {
             var channel = _client.GetChannel(_discordOptions.ChannelId);
 
-            if (channel is ITextChannel textChannel) await textChannel.SendMessageAsync("Connected");
+            if (channel is ITextChannel textChannel) await textChannel.SendMessageAsync("Ready to serve M'Lord / M'Lady.");
 
             _workerTask = Task.Run(Worker);
         }

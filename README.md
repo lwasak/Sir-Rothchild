@@ -1,4 +1,4 @@
-# Sir-Rothchild
+# Sir Rothchild
 Discord bot some task automation purposes.
 
 Right now the bot will generate each Saturday at 00:00 UTC a series of messages. The messages will reflect the following week with short date and day name (format `dd.MM ddd`). 

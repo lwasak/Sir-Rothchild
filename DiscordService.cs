@@ -1,5 +1,4 @@
 using System.Globalization;
-using System.Text.Json.Nodes;
 using Discord;
 using Discord.WebSocket;
 using Microsoft.Extensions.Hosting;
@@ -37,6 +36,7 @@ public class DiscordService : IHostedService
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
+        Console.WriteLine("Starting Sir Rothchild service..");
         if (File.Exists(_dataFileUrl))
         {
             var text = await File.ReadAllTextAsync(_dataFileUrl, cancellationToken);
@@ -48,15 +48,21 @@ public class DiscordService : IHostedService
 
         await _client.LoginAsync(TokenType.Bot, _discordOptions.Token);
         await _client.StartAsync();
+        
+        Console.WriteLine("Sir Rothchild started");
     }
 
     public async Task StopAsync(CancellationToken cancellationToken)
     {
+        Console.WriteLine("Stopping Sir Rothchild service..");
+        
         _cts.Cancel();
         if (_workerTask != null) await _workerTask;
 
         await _client.StopAsync();
         await _client.LogoutAsync();
+        
+        Console.WriteLine("Sir Rothchild stopped");
     }
 
     private async Task Worker()
@@ -76,6 +82,7 @@ public class DiscordService : IHostedService
                         var monday = now.AddDays(2);
                         var sunday = monday.AddDays(6);
 
+                        Console.WriteLine($"Generating schedule for {monday:dd.MM} - {sunday:dd.MM}");
                         await textChannel.SendMessageAsync($"===== [ {monday:dd.MM} - {sunday:dd.MM} ] =====");
 
                         var day = monday;
@@ -91,6 +98,8 @@ public class DiscordService : IHostedService
 
                     _lastExecutionTime = now;
                     await File.WriteAllTextAsync(_dataFileUrl, _lastExecutionTime.Value.ToString("O"));
+                    
+                    Console.WriteLine($"Schedule generated [{_lastExecutionTime}]");
                 }
 
                 await Task.Delay(_discordOptions.SchedulerInterval, _cts.Token);
@@ -111,6 +120,8 @@ public class DiscordService : IHostedService
             if (channel is ITextChannel textChannel) await textChannel.SendMessageAsync("Ready to serve M'Lord / M'Lady.");
 
             _workerTask = Task.Run(Worker);
+            
+            Console.WriteLine($"Last schedule was sent at {_lastExecutionTime:O}");
         }
         catch (Exception ex)
         {

@@ -126,10 +126,28 @@ public class DiscordService : IHostedService
                 if (channel is ITextChannel textChannel)
                     await textChannel.SendMessageAsync("Ready to serve M'Lord / M'Lady.");
 
-                _workerTask = Task.Run(Worker);
+                Console.WriteLine("Spawning task..");
+                _workerTask = Task.Run(Worker, _cts.Token);
+                Console.WriteLine("Task spawned");
+                PrintTaskStatus();
             }
 
             Console.WriteLine($"Last schedule was sent at {_lastExecutionTime:O}");
+            PrintTaskStatus();
+
+            void PrintTaskStatus()
+            {
+                Console.WriteLine(JsonConvert.SerializeObject(new
+                {
+                    _workerTask?.Id,
+                    _workerTask?.Exception,
+                    _workerTask?.IsCompleted,
+                    _workerTask?.IsCompletedSuccessfully,
+                    _workerTask?.IsCanceled,
+                    _workerTask?.IsFaulted,
+                    _workerTask?.Status
+                }, Formatting.Indented));
+            }
         }
         catch (Exception ex)
         {

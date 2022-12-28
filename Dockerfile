@@ -2,7 +2,7 @@
 WORKDIR /src
 COPY . .
 WORKDIR "/src/"
-RUN dotnet publish "SirRothchild.sln" -c Release --runtime linux-musl-x64 -o /app/publish
+RUN dotnet publish "SirRothchild.sln" -c Release --runtime linux-musl-x64 -o /app/publish -p:PublishTrimmed=true
 
 FROM mcr.microsoft.com/dotnet/runtime-deps:7.0 AS final
 WORKDIR /app

@@ -67,6 +67,8 @@ public class DiscordService : IHostedService
 
     private async Task Worker()
     {
+        Console.WriteLine("Worker initiated");
+        
         while (!_cts.IsCancellationRequested)
         {
             try
@@ -106,9 +108,11 @@ public class DiscordService : IHostedService
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                Console.WriteLine($"Worker failed processing {ex}");
             }
         }
+        
+        Console.WriteLine("Worked finished working");
     }
 
     private async Task Ready()
@@ -129,7 +133,7 @@ public class DiscordService : IHostedService
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex);
+            Console.WriteLine($"Error on app ready {ex}");
         }
     }
 
@@ -170,7 +174,7 @@ public class DiscordService : IHostedService
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex);
+            Console.WriteLine($"Error on reaction added {ex}");
         }
     }
 }

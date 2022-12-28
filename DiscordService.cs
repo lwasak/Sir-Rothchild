@@ -115,12 +115,16 @@ public class DiscordService : IHostedService
     {
         try
         {
-            var channel = _client.GetChannel(_discordOptions.ChannelId);
+            if (_workerTask == null)
+            {
+                var channel = _client.GetChannel(_discordOptions.ChannelId);
 
-            if (channel is ITextChannel textChannel) await textChannel.SendMessageAsync("Ready to serve M'Lord / M'Lady.");
+                if (channel is ITextChannel textChannel)
+                    await textChannel.SendMessageAsync("Ready to serve M'Lord / M'Lady.");
 
-            _workerTask = Task.Run(Worker);
-            
+                _workerTask = Task.Run(Worker);
+            }
+
             Console.WriteLine($"Last schedule was sent at {_lastExecutionTime:O}");
         }
         catch (Exception ex)

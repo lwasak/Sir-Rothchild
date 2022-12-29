@@ -15,7 +15,7 @@ await Host.CreateDefaultBuilder()
             .Bind(context.Configuration.GetSection(DiscordOptions.SectionName))
             .ValidateOnStart();
             
-        services.AddHostedService<DiscordService>();
+        services.AddHostedService<DiscordServiceBackgroundService>();
     })
     .UseConsoleLifetime()
     .RunConsoleAsync();

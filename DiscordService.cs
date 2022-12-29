@@ -103,6 +103,8 @@ public class DiscordService : IHostedService
                     
                     Console.WriteLine($"Schedule generated [{_lastExecutionTime}]");
                 }
+                
+                Console.WriteLine("working...");
 
                 await Task.Delay(_discordOptions.SchedulerInterval, _cts.Token);
             }

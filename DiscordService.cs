@@ -24,7 +24,7 @@ public class DiscordService : IHostedService
         _client = new DiscordSocketClient();
         _cts = new CancellationTokenSource();
 
-        Console.WriteLine("Settings:");
+        Console.WriteLine($"{nameof(DiscordService)} Settings:");
         Console.WriteLine(JsonConvert.SerializeObject(_discordOptions, Formatting.Indented));
         
         var culture = new CultureInfo(_discordOptions.Locale);

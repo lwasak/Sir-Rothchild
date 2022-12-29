@@ -8,17 +8,17 @@ using SirRothchild.Settings;
 
 namespace SirRothchild;
 
-public class DiscordServiceBackgroundService : BackgroundService
+public class DiscordBackgroundService : BackgroundService
 {
     private readonly DiscordOptions _discordOptions;
     private readonly DiscordSocketClient _client;
     private readonly string _dataFileUrl = $"{AppContext.BaseDirectory}last_execution.data";
 
-    public DiscordServiceBackgroundService(IOptions<DiscordOptions> discordOptions)
+    public DiscordBackgroundService(IOptions<DiscordOptions> discordOptions)
     {
         _discordOptions = discordOptions.Value;
 
-        Console.WriteLine("[2] Settings:");
+        Console.WriteLine($"{nameof(DiscordBackgroundService)} Settings:");
         Console.WriteLine(JsonConvert.SerializeObject(_discordOptions, Formatting.Indented));
         
         var culture = new CultureInfo(_discordOptions.Locale);
@@ -27,6 +27,26 @@ public class DiscordServiceBackgroundService : BackgroundService
         _client = new DiscordSocketClient();
         _client.Ready += Ready;
         _client.ReactionAdded += ReactionAdded;
+        _client.Log += message =>
+        {
+            Console.WriteLine(message);
+
+            return Task.CompletedTask;
+        };
+
+        _client.LoggedIn += () =>
+        {
+            Console.WriteLine("Logged in");
+
+            return Task.CompletedTask;
+        };
+        
+        _client.LoggedIn += () =>
+        {
+            Console.WriteLine("Logged out");
+
+            return Task.CompletedTask;
+        };
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)

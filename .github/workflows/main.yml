@@ -28,4 +28,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/sir-rothchild:latest , ${{ secrets.DOCKER_HUB_USERNAME }}/sir-rothchild:$0.0.{{ github.run_id }}
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/sir-rothchild:latest , ${{ secrets.DOCKER_HUB_USERNAME }}/sir-rothchild:0.${{ GITHUB_RUN_ID }}.${{ GITHUB_RUN_NUMBER }}${{ GITHUB_RUN_ATTEMPT }}
